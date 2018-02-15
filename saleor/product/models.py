@@ -94,8 +94,12 @@ class ProductQuerySet(models.QuerySet):
 
 
 _BASE_AVAILABILITY_MSG = 'This product is available %s'
-AVAILABILITY_MSG_FROM_TO = _BASE_AVAILABILITY_MSG % 'within %d to %d days.'
-AVAILABILITY_MSG_WITHIN = _BASE_AVAILABILITY_MSG % 'within %d days.'
+
+AVAILABILITY_MSG_FROM_TO = gettext_lazy(
+    _BASE_AVAILABILITY_MSG % 'within %d to %d days.')
+
+AVAILABILITY_MSG_WITHIN = gettext_lazy(
+    _BASE_AVAILABILITY_MSG % 'within %d days.')
 
 
 class Product(models.Model, ItemRange):
@@ -216,15 +220,14 @@ class Product(models.Model, ItemRange):
 
         if min_days:
             if max_days:
-                return gettext_lazy(AVAILABILITY_MSG_FROM_TO) % (
-                    min_days, max_days)
+                return AVAILABILITY_MSG_FROM_TO % (min_days, max_days)
             else:
                 within_days = min_days
         elif max_days:
             within_days = max_days
 
         if within_days:
-            s = gettext_lazy(AVAILABILITY_MSG_WITHIN) % within_days
+            s = AVAILABILITY_MSG_WITHIN % within_days
 
         return s
 

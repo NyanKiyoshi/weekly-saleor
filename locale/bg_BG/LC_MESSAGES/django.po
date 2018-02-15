@@ -4752,3 +4752,19 @@ msgstr ""
 #: saleor/product/models.py:97
 msgid "This product is available within %d days."
 msgstr ""
+
+#: templates/dashboard/product/_stock_table.html:10
+msgid "Min Days"
+msgstr ""
+
+#: templates/dashboard/product/_stock_table.html:11
+msgid "Max Days"
+msgstr ""
+
+#: saleor/dashboard/product/forms.py:38
+msgid "Min availability days"
+msgstr ""
+
+#: saleor/dashboard/product/forms.py:39
+msgid "Max availability days"
+msgstr ""
