@@ -1,0 +1,63 @@
+msgid "Spots Rails"
+msgstr ""
+
+msgid "Spots"
+msgstr ""
+
+msgid "Suspensions"
+msgstr ""
+
+msgid "Bornes Lumineuses"
+msgstr ""
+
+msgid "Intérieur"
+msgstr ""
+
+msgid "Appliques"
+msgstr ""
+
+msgid "Spots Downlight"
+msgstr ""
+
+msgid "Accessoires pour Spots Rails"
+msgstr ""
+
+msgid "Appliques Plafonniers"
+msgstr ""
+
+msgid "Spots Basiques"
+msgstr ""
+
+msgid "Spots pour Rails"
+msgstr ""
+
+msgid "Extérieur"
+msgstr ""
+
+msgid "Projecteurs"
+msgstr ""
+
+msgid "Appliques Murales"
+msgstr ""
+
+msgid "Accessoire Ruban LED"
+msgstr ""
+
+msgid "Rubans LED"
+msgstr ""
+
+msgid "Ampoules & Rubans"
+msgstr ""
+
+msgid "Ampoules"
+msgstr ""
+
+msgid "Éclairage de Magasin"
+msgstr ""
+
+msgid "Réglettes"
+msgstr ""
+
+msgid "Spots Étanches"
+msgstr ""
+
