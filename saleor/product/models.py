@@ -236,6 +236,10 @@ class Product(models.Model, ItemRange):
             return self._format_availability()
         return ''
 
+    @property
+    def availability_range(self):
+        return self.get_availability_range()
+
 
 class ProductVariant(models.Model, Item):
     sku = models.CharField(max_length=32, unique=True)

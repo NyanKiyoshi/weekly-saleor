@@ -134,7 +134,7 @@ def test_get_availability_range(product_in_stock: Product, client):
         else:
             assert html_format % expected not in resp_content
 
-        assert product.get_availability_range() == expected
+        assert product.availability_range == expected
 
     _expect('')
 
