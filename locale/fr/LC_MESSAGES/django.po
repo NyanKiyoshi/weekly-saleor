@@ -5309,3 +5309,11 @@ msgstr "Par unité"
 msgctxt "E-mail order line summary header"
 msgid "Subtotal"
 msgstr "Sous-total"
+
+#: saleor/product/models.py:97
+msgid "This product is available within %d to %d days."
+msgstr "Ce produit est disponible sous %d à %d jours."
+
+#: saleor/product/models.py:97
+msgid "This product is available within %d days."
+msgstr "Ce produit est disponible sous %d jours."

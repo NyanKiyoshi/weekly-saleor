@@ -4677,3 +4677,11 @@ msgstr "Bewerken"
 msgctxt "No addresses text"
 msgid "You will see new addresses here after first successful checkout."
 msgstr "Je ziet hier nieuwe adressen na eerste succesvolle afrekening."
+
+#: saleor/product/models.py:97
+msgid "This product is available within %d to %d days."
+msgstr ""
+
+#: saleor/product/models.py:97
+msgid "This product is available within %d days."
+msgstr ""

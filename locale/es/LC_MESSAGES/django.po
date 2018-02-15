@@ -4743,3 +4743,11 @@ msgstr "Editar"
 msgctxt "No addresses text"
 msgid "You will see new addresses here after first successful checkout."
 msgstr "Verás nuevas direcciones aquí después del primer checkout exitoso."
+
+#: saleor/product/models.py:97
+msgid "This product is available within %d to %d days."
+msgstr ""
+
+#: saleor/product/models.py:97
+msgid "This product is available within %d days."
+msgstr ""
