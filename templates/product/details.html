@@ -119,6 +119,9 @@
         </p>
       {% endif %}
       {% if availability.available %}
+        {% if availability.availability_range %}
+          <p class="alert alert-warning">{{ availability.availability_range }}</p>
+        {% endif %}
         {% if show_variant_picker %}
           <div id="variant-price-component"></div>
         {% else %}

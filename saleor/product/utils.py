@@ -53,12 +53,14 @@ def products_with_availability(products, discounts, local_currency):
 ProductAvailability = namedtuple(
     'ProductAvailability', (
         'available', 'on_sale', 'price_range', 'price_range_undiscounted',
-        'discount', 'price_range_local_currency', 'discount_local_currency'))
+        'discount', 'price_range_local_currency', 'discount_local_currency',
+        'availability_range'))
 
 
 def get_availability(product, discounts=None, local_currency=None):
     # In default currency
     price_range = product.get_price_range(discounts=discounts)
+    availability_range = product.get_availability_range()
     undiscounted = product.get_price_range()
     if undiscounted.min_price > price_range.min_price:
         discount = undiscounted.min_price - price_range.min_price
@@ -93,7 +95,8 @@ def get_availability(product, discounts=None, local_currency=None):
         price_range_undiscounted=undiscounted,
         discount=discount,
         price_range_local_currency=price_range_local,
-        discount_local_currency=discount_local_currency)
+        discount_local_currency=discount_local_currency,
+        availability_range=availability_range)
 
 
 def handle_cart_form(request, product, create_cart=False):

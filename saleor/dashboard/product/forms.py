@@ -33,7 +33,11 @@ class StockForm(forms.ModelForm):
             'quantity': pgettext_lazy(
                 'Integer number', 'Quantity'),
             'cost_price': pgettext_lazy(
-                'Currency amount', 'Cost price')}
+                'Currency amount', 'Cost price'),
+            'min_days': pgettext_lazy(
+                'Min availability days', 'Min availability days'),
+            'max_days': pgettext_lazy(
+                'Max availability days', 'Max availability days')}
 
     def __init__(self, *args, **kwargs):
         self.variant = kwargs.pop('variant')
@@ -360,10 +364,10 @@ class ReorderProductImagesForm(forms.ModelForm):
         if self.instance:
             self.fields['ordered_images'].queryset = self.instance.images.all()
 
-    def save(self):
+    def save(self, commit=True):
         for order, image in enumerate(self.cleaned_data['ordered_images']):
             image.order = order
-            image.save()
+            image.save(commit)
         return self.instance
 
 

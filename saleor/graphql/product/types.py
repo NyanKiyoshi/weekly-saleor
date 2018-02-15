@@ -34,6 +34,7 @@ class ProductAvailabilityType(graphene.ObjectType):
     price_range = graphene.Field(lambda: PriceRangeType)
     price_range_undiscounted = graphene.Field(lambda: PriceRangeType)
     price_range_local_currency = graphene.Field(lambda: PriceRangeType)
+    availability_range = graphene.String()
 
 
 class ProductType(DjangoObjectType):

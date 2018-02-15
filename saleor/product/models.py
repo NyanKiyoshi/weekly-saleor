@@ -9,7 +9,7 @@ from django.db.models import F, Max, Q
 from django.urls import reverse
 from django.utils.encoding import smart_text
 from django.utils.text import slugify
-from django.utils.translation import pgettext_lazy
+from django.utils.translation import pgettext_lazy, gettext_lazy
 from django_prices.models import Price, PriceField
 from mptt.managers import TreeManager
 from mptt.models import MPTTModel
@@ -91,6 +91,9 @@ class ProductQuerySet(models.QuerySet):
         return self.filter(
             Q(available_on__lte=today) | Q(available_on__isnull=True),
             Q(is_published=True))
+
+
+BASE_AVAILABILITY_MSG = 'This product is available within %d '
 
 
 class Product(models.Model, ItemRange):
@@ -175,6 +178,28 @@ class Product(models.Model, ItemRange):
             return None
         grosses = sorted(grosses, key=lambda x: x.tax)
         return PriceRange(min(grosses), max(grosses))
+
+    def get_availability_range(self):
+        if not self.variants.exists():
+            return ''
+
+        mins, maxs = [0, 0], [0, 0]
+
+        for variant in self.variants.all():
+            for stock in variant.stock.all():
+                if stock.min_days:
+                    mins.append(stock.min_days)
+                    maxs.append(stock.max_days or 0)
+
+        min_days = max(*mins)
+        max_days = max(*maxs)
+
+        if max_days:
+            s = gettext_lazy((BASE_AVAILABILITY_MSG + 'to %d days.') % (min_days, max_days))
+        else:
+            s = gettext_lazy((BASE_AVAILABILITY_MSG + 'days.') % min_days)
+
+        return s
 
 
 class ProductVariant(models.Model, Item):
@@ -303,6 +328,9 @@ class Stock(models.Model):
     cost_price = PriceField(
         currency=settings.DEFAULT_CURRENCY, max_digits=12, decimal_places=2,
         blank=True, null=True)
+
+    min_days = models.PositiveIntegerField(blank=True, null=True)
+    max_days = models.PositiveIntegerField(blank=True, null=True)
 
     class Meta:
         app_label = 'product'
