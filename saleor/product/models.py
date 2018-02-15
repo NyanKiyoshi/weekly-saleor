@@ -93,7 +93,9 @@ class ProductQuerySet(models.QuerySet):
             Q(is_published=True))
 
 
-BASE_AVAILABILITY_MSG = 'This product is available within %d '
+_BASE_AVAILABILITY_MSG = 'This product is available %s'
+AVAILABILITY_MSG_FROM_TO = _BASE_AVAILABILITY_MSG % 'within %d to %d days.'
+AVAILABILITY_MSG_WITHIN = _BASE_AVAILABILITY_MSG % 'within %d days.'
 
 
 class Product(models.Model, ItemRange):
@@ -179,27 +181,57 @@ class Product(models.Model, ItemRange):
         grosses = sorted(grosses, key=lambda x: x.tax)
         return PriceRange(min(grosses), max(grosses))
 
-    def get_availability_range(self):
-        if not self.variants.exists():
-            return ''
-
-        mins, maxs = [0, 0], [0, 0]
+    def _get_availability(self):
+        mins, maxs = [], []
 
         for variant in self.variants.all():
             for stock in variant.stock.all():
                 if stock.min_days:
                     mins.append(stock.min_days)
-                    maxs.append(stock.max_days or 0)
 
-        min_days = max(*mins)
-        max_days = max(*maxs)
+                if stock.max_days:
+                    maxs.append(stock.max_days)
 
-        if max_days:
-            s = gettext_lazy((BASE_AVAILABILITY_MSG + 'to %d days.') % (min_days, max_days))
-        else:
-            s = gettext_lazy((BASE_AVAILABILITY_MSG + 'days.') % min_days)
+        return mins, maxs
+
+    def _get_availability_range(self):
+        mins, maxs = self._get_availability()
+        min_days, max_days = 0, 0
+
+        if mins:
+            if len(mins) > 2:
+                min_days = min(*mins)
+            else:
+                min_days = mins[0]
+        if maxs:
+            max_days = max(0, *maxs)
+
+        return min_days, max_days
+
+    def _format_availability(self):
+        min_days, max_days = self._get_availability_range()
+
+        s = ''
+        within_days = 0
+
+        if min_days:
+            if max_days:
+                return gettext_lazy(AVAILABILITY_MSG_FROM_TO) % (
+                    min_days, max_days)
+            else:
+                within_days = min_days
+        elif max_days:
+            within_days = max_days
+
+        if within_days:
+            s = gettext_lazy(AVAILABILITY_MSG_WITHIN) % within_days
 
         return s
+
+    def get_availability_range(self):
+        if self.variants.exists():
+            return self._format_availability()
+        return ''
 
 
 class ProductVariant(models.Model, Item):
