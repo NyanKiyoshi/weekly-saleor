@@ -364,10 +364,10 @@ class ReorderProductImagesForm(forms.ModelForm):
         if self.instance:
             self.fields['ordered_images'].queryset = self.instance.images.all()
 
-    def save(self, commit=True):
+    def save(self):
         for order, image in enumerate(self.cleaned_data['ordered_images']):
             image.order = order
-            image.save(commit)
+            image.save()
         return self.instance
 
 
