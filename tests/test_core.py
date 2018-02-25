@@ -6,8 +6,6 @@ from django.shortcuts import reverse
 from django.test import RequestFactory
 from prices import Price
 
-from saleor import settings
-from saleor.core.urls import ROBOTS_TXT
 from saleor.core.utils import (
     Country, create_superuser, get_country_by_ip, get_currency_for_country,
     random_data)
@@ -243,17 +241,29 @@ def test_get_tax_price(order_with_lines: Order, billing_address):
 
 
 def test_get_robots_txt(client):
-    if settings.DEBUG:
-        assert client.get('/robots.txt').content == ROBOTS_TXT
+    response = client.get('/robots.txt')
+    robots_txt = b'User-agent: *\nDisallow: /'
+    assert response.status_code == 200
+    assert response.get('Content-Type').startswith('text/plain')
+    assert client.get('/robots.txt').content.strip() == robots_txt
 
 
 def test_get_privacy_policy(client):
     response = client.get(reverse('privacy-policy'))
     assert response.status_code == 200
+    assert response.get('Content-Type').startswith('text/html')
     assert b'Privacy Policy' in response.content
 
 
 def test_get_selling_contract(client):
     response = client.get(reverse('selling-contract'))
     assert response.status_code == 200
+    assert response.get('Content-Type').startswith('text/html')
     assert b'Selling Contract' in response.content
+
+
+def test_get_about_page(client):
+    response = client.get(reverse('about'))
+    assert response.status_code == 200
+    assert response.get('Content-Type').startswith('text/html')
+    assert b'About Page' in response.content
