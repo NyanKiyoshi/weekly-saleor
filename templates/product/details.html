@@ -68,6 +68,7 @@
             <div class="carousel-inner" role="listbox">
               {% for image in images %}
                 <div class="carousel-item{% if forloop.first %} active{% endif %}">
+                  <div class="overlay"></div>
                   <img class="d-block img-fluid lazyload lazypreload"
                        data-src="{% get_thumbnail image.image method="fit" size="540x540" %}"
                        data-srcset="{% get_thumbnail image.image method="fit" size="540x540" %} 1x, {% get_thumbnail image.image method="fit" size="1080x1080" %} 2x"
@@ -84,7 +85,7 @@
                 <svg data-src="{% static "images/gallery-arrow.svg" %}" />
               </a>
             {% endif %}
-          <hr/>
+            <hr/>
             <ol class="carousel-indicators d-none d-md-block">
               {% for image in images %}
                 {% if images|length > 1 %}
